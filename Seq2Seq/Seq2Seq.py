@@ -24,7 +24,7 @@ input_embedding_size = 20
 encoder_hidden_units = 20
 decoder_hidden_units = encoder_hidden_units
 
-# inputs, outputs
+# 定义encoder，decoder的输入以及decoder的输出（占位符）
 encoder_inputs = tf.placeholder(shape=(None, None), dtype=tf.int32, name='encoder_inputs')     # shape:[encoder_max_time, batch_size]
 decoder_targets = tf.placeholder(shape=(None, None), dtype=tf.int32, name='decoder_targets')   # shape:[decoder_max_time, batch_size]
 
