@@ -50,11 +50,13 @@ pred = RNN(x, weights, biases)
 
 # 定义损失函数和优化器
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+tf.summary.scalar('loss', cost)
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # 定义准确率
 correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+tf.summary.scalar('accuracy', accuracy)
 
 # 定义初始化全局变量操作
 init_op = tf.global_variables_initializer()
@@ -83,10 +85,10 @@ with tf.Session() as sess:
 
             # 计算batch的准确率
             summary, acc = sess.run([merged, accuracy], feed_dict={x: batch_x, y:batch_y})
-            summary_writer.add_summary()
+            summary_writer.add_summary(summary, step)
             # 计算batch的损失
-            loss = sess.run(cost, feed_dict={x: batch_x, y:batch_y})
-            tf.summary.scalar('loss', loss)
+            summary, loss = sess.run([merged, cost], feed_dict={x: batch_x, y:batch_y})
+            summary_writer.add_summary(summary, step)
             # 反向传播计算
             sess.run(optimizer, feed_dict={x: batch_x, y:batch_y})
             print(
