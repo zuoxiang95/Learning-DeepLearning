@@ -11,7 +11,18 @@
 可以创建一个字典，字典中存放每个字母出现的个数。
 将所有偶数的和加上所有奇数-1的和得到最长回文方案
 '''
+import collections
+
 def longestPalindrome(s):
+    use = sum(v & ~1 for v in collections.Counter(s).values())
+    return use + (use < len(s))
+
+def longestPalindromes(s):
+    counts = collections.Counter(s).values()
+    return sum(v & ~1 for v in counts) + any(v & 1 for v in counts)
+
+
+def longestPalindrome1(s):
     # Write your code here
     my_dict = {}
     for i in s:
@@ -19,14 +30,9 @@ def longestPalindrome(s):
             my_dict[i] = 1
         else:
             my_dict[i] += 1
-    my_sum = 0
-    print(my_dict['i'])
-    for j in my_dict.values():
-        if j % 2 == 0:
-            my_sum += j
-        else:
-            continue
-    return my_sum + 1
+    my_sum = sum(v & ~1 for v in my_dict.values())
+    return my_sum + (my_sum < len(s))
+
 x = 'daslmASvAjSjoqj'
 y = longestPalindrome(x)
 print(y)
