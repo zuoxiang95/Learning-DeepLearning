@@ -18,8 +18,8 @@ train_Y = np.asarray([1.7, 2.76, 2.09, 3.19, 1.694, 1.573, 3.366, 2.596, 2.53, 1
 n_samples = train_X.shape[0]
 
 # tf Graph Input
-X = tf.placeholder("float")
-Y = tf.placeholder("float")
+X = tf.placeholder(tf.float32)
+Y = tf.placeholder(tf.float32)
 
 # Set model weights
 W = tf.Variable(rng.randn(), name="weight")
