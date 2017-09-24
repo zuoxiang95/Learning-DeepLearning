@@ -19,6 +19,7 @@ x = tf.placeholder(dtype=tf.float32, shape=[None, 784], name='input_tensor')
 y = tf.placeholder(dtype=tf.float32, shape=[None, 10], name='output_tensor')
 
 # 定义模型
+# 两层全连接，再加上一个输出层
 dense_1 = tf.layers.dense(inputs=x, units=256,
                           kernel_initializer=tf.random_normal_initializer(),
                           activation=tf.nn.sigmoid, name='dense_1')
@@ -33,9 +34,11 @@ output = tf.layers.dense(inputs=dense_2, units=10,
 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=output))
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)
 
+# 定义准确率
 correct_pred = tf.equal(tf.argmax(output, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
+# 定义权重变量初始化操作
 init_op = tf.global_variables_initializer()
 
 with tf.Session() as sess:
@@ -56,4 +59,5 @@ with tf.Session() as sess:
 
     print("Optimization Finished!")
 
+    # 测试模型再测试集上的准确率
     print("Testing Accuracy:", sess.run(accuracy, feed_dict={x: mnist.test.images, y: mnist.test.labels}))
