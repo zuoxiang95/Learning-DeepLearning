@@ -7,7 +7,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 # 模型超参数
 batch_size = 32
 epoch_num = 20000
-learning_rate = 0.01
+learning_rate = 0.001
 display_num = 500
 dropout_rate = 0.5
 
@@ -26,9 +26,11 @@ dense_1 = tf.layers.dense(inputs=x, units=256,
 dense_2 = tf.layers.dense(inputs=dense_1, units=256,
                           kernel_initializer=tf.random_normal_initializer(),
                           activation=tf.nn.sigmoid, name='dense_2')
-output = tf.layers.dense(inputs=dense_2, units=10,
-                         kernel_initializer=tf.random_normal_initializer(),
-                         activation=tf.nn.sigmoid, name='output')
+dense_3 = tf.layers.dense(inputs=dense_2, units=10,
+                          kernel_initializer=tf.random_normal_initializer(),
+                          activation=tf.nn.sigmoid, name='output')
+
+output = tf.nn.softmax(dense_3)
 
 # 定义损失函数
 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=output))
