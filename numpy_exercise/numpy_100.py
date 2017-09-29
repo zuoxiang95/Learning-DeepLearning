@@ -62,11 +62,11 @@ x = np.ones((4, 4))
 y = np.pad(array=x, pad_width=1, mode='constant')
 
 # 17. What is the result of the following expression? (★☆☆)
-0 * np.nan  # nan
-np.nan == np.nan  # False
-np.inf > np.nan  # False
-np.nan - np.nan  # nan
-0.3 == 3 * 0.1  # False
+0 * np.nan           # nan
+np.nan == np.nan     # False
+np.inf > np.nan      # False
+np.nan - np.nan      # nan
+0.3 == 3 * 0.1       # False
 
 # 18. Create a 5x5 matrix with values 1,2,3,4 just below the diagonal (★☆☆)
 x = np.array([1, 2, 3, 4])
@@ -112,12 +112,12 @@ print(sum(range(5), -1))  # 10
 
 # 27. Consider an integer vector Z, which of these expressions are legal? (★☆☆)
 Z = np.arange(3)
-Z ** Z  # = [0^0, 1^1, 2^2] = [1, 1, 4]
+Z ** Z       # = [0^0, 1^1, 2^2] = [1, 1, 4]
 2 << Z >> 2  # = [0, 1, 2]
-Z < - Z  # = [False, False, False]
-1j * Z  # = [0 + 0.j, 0 + 1.j, 0 + 2.j]
-Z / 1 / 1  # = [0, 1, 2]
-Z < Z > Z  # ValueError
+Z < - Z      # = [False, False, False]
+1j * Z       # = [0 + 0.j, 0 + 1.j, 0 + 2.j]
+Z / 1 / 1    # = [0, 1, 2]
+Z < Z > Z    # ValueError
 
 # 28. What are the result of the following expressions? (★☆☆)
 np.array(0) / np.array(0)
@@ -171,27 +171,71 @@ x = np.zeros((5, 5))
 x += np.arange(5)
 
 # 38. Consider a generator function that generates 10 integers and use it to build an array (★☆☆)
+def generate_integers():
+    for i in range(10):
+        yield i
+np.fromiter(generate_integers(), dtype=np.float32, count=-1)
 
 # 39. Create a vector of size 10 with values ranging from 0 to 1, both excluded (★★☆)
+np.linspace(start=0, stop=11, num=10, endpoint=False)
 
 # 40. Create a random vector of size 10 and sort it (★★☆)
+x = np.random.random(size=10)
+x.sort()
 
 # 41. How to sum a small array faster than np.sum? (★★☆)
+import time
+
+begin_time = time.time()
+x = np.arange(1000000)
+np.sum(x)
+end_time = time.time()
+print(str(1000*(end_time - begin_time)))
+
+begin_time2 = time.time()
+x = np.arange(1000000)
+np.add.reduce(x)
+end_time2 = time.time()
+print(str(1000*(end_time2 - begin_time2)))
 
 # 42. Consider two random array A and B, check if they are equal (★★☆)
+A = np.arange(10)
+B = np.arange(10)
+np.array_equal(A, B)
 
 # 43. Make an array immutable (read-only) (★★☆)
+x = np.zeros(10)
+x.flags.writeable = False
+x[1] = 1   # ValueError: assignment destination is read-only
 
 # 44. Consider a random 10x2 matrix representing cartesian coordinates, convert them to polar coordinates (★★☆)
+Z = np.random.random((10, 2))
+X, Y = Z[:, 0], Z[:, 1]
+R = np.sqrt(X ** 2 + Y ** 2)
+T = np.arctan2(Y, X)
+print(R)
+print(T)
 
 # 45. Create random vector of size 10 and replace the maximum value by 0 (★★☆)
+x = np.random.random(10)
+x[x == np.max(x)] = 0
+x[x.argmax()] = 0
 
 # 46. Create a structured array with x and y coordinates covering the [0,1]x[0,1] area (★★☆)
+z = np.zeros((5, 5), [('x', float), ('y', float)])
+z['x'], z['y'] = np.meshgrid(np.linspace(0, 1, 5), np.linspace(0, 1, 5))
 
 # 47. Given two arrays, X and Y, construct the Cauchy matrix C (Cij =1/(xi - yj))
+x = np.random.random((5, 5))
+y = np.random.random((5, 5))
+c = 1 / (x - y)
+c = 1 / np.subtract.outer(x, y)
+np.linalg.det(c)
 
 # 48. Print the minimum and maximum representable value for each numpy scalar type (★★☆)
+
 
 # 49. How to print all the values of an array? (★★☆)
 
 # 50. How to find the closest value (to a given scalar) in a vector? (★★☆)
+
