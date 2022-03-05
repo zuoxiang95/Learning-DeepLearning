@@ -88,6 +88,12 @@ x = np.random.random(size=(5, 5))
 x_mean = np.mean(x)
 x_var = np.var(x)
 x_norm = (x - x_mean) / np.sqrt(x_var)
+# code you have written above in 22nd question is called standardization
+# code for the actual normalization
+x = np.random.random(size=(5, 5))
+mx = x.max()
+mn = x.min()
+x_norm = (x - mn) / (mx - mn)
 
 # 23. Create a custom dtype that describes a color as four unsigned bytes (RGBA) (★☆☆)
 color = np.dtype([("r", np.ubyte, 1),
